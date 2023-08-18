@@ -1,12 +1,14 @@
 package com.orca.spring.notice.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.orca.spring.notice.domain.Notice;
+import com.orca.spring.notice.domain.PageInfo;
 import com.orca.spring.notice.service.NoticeService;
 import com.orca.spring.notice.store.NoticeStore;
 
@@ -28,9 +30,58 @@ public class NoticeServiceImpl implements NoticeService{
 
 
 	@Override
-	public List<Notice> selectNoticeList() {
-		List<Notice> nList = nStore.selectNoticeList(session);
+	public List<Notice> selectNoticeList(PageInfo pInfo) {
+		List<Notice> nList = nStore.selectNoticeList(session, pInfo);
 		return nList;
+	}
+
+
+	@Override
+	public int getListCount(Map<String, String> paramMap) {
+		int result = nStore.selectListCount(session, paramMap);
+		return result;
+	}
+
+
+	@Override
+	public List<Notice> searchNoticesByTitle(String searchKeyword, PageInfo pInfo) {
+		List<Notice> searchList = nStore.searchNoticesByTitle(session, searchKeyword, pInfo);
+		return searchList;
+	}
+
+
+	@Override
+	public List<Notice> searchNoticesByContent(String searchKeyword, PageInfo pInfo) {
+		List<Notice> searchList = nStore.searchNoticesByContent(session, searchKeyword, pInfo);
+		return searchList;
+	}
+
+
+	@Override
+	public List<Notice> searchNoticesByWriter(String searchKeyword, PageInfo pInfo) {
+		List<Notice> searchList = nStore.searchNoticesByWriter(session, searchKeyword, pInfo);
+		return searchList;
+	}
+
+
+	@Override
+	public List<Notice> searchNoticesAll(String searchKeyword, PageInfo pInfo) {
+		List<Notice> searchList = nStore.searchNoticesAll(session, searchKeyword, pInfo);
+		return searchList;
+	}
+
+
+	@Override
+	public List<Notice> searchNoticesByKeyword(PageInfo pInfo, Map<String,String> paramMap) {
+		List<Notice> searchList = nStore.searchNoticesByKeyword(session, pInfo, paramMap);
+		return searchList;
+	}
+
+
+	@Override
+	public int getListCount() {
+		int result = nStore.selectListCount(session);
+		return result;
 	}
 
 	

@@ -19,7 +19,7 @@
 			<label> ID : </label><input type="text" name="memberId"><br>
 			<label> PW </label> : <input type="password" name="memberPw"><br>
 			<input type="submit" value="로그인">
-			<a href="/member/register.do">회원가입</a>
+			<a href="/member/register.kh">회원가입</a>
 		</form>
 		</c:if>
 	</body>

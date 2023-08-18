@@ -22,4 +22,57 @@
 	<select id="selectNoticeList" resultMap="noticeResultMap">
 		SELECT * FROM NOTICE_TBL
 	</select>
+	
+	<select id="searchNoticesByKeyword" resultMap="noticeResultMap">
+		SELECT * FROM NOTICE_TBL
+		<if test="searchCondition == 'all'">
+		WHERE NOTICE_SUBJECT LIKE '%'||#{searchKeyword}||'%' OR NOTICE_CONTENT LIKE '%'||#{searchKeyword}||'%' OR NOTICE_WRITER LIKE '%'||#{searchKeyword}||'%'		
+		</if>
+		<if test="searchCondition == 'wirter'">
+		WHERE NOTICE_WRITER LIKE '%'||#{searchKeyword}||'%'		
+		</if>
+		<if test="searchCondition == 'title'">
+		WHERE NOTICE_SUBJECT LIKE '%'||#{searchKeyword}||'%'	
+		</if>
+		<if test="searchCondition == 'content'">
+		WHERE NOTICE_CONTENT LIKE '%'||#{searchKeyword}||'%'		
+		</if>
+	</select>
+	
+	
+	<select id="searchNoticesAll" resultMap="noticeResultMap">
+		SELECT * FROM NOTICE_TBL WHERE NOTICE_SUBJECT LIKE '%'||#{searchKeyword}||'%' OR NOTICE_CONTENT LIKE '%'||#{searchKeyword}||'%' OR NOTICE_WRITER LIKE '%'||#{searchKeyword}||'%'
+	</select>
+	
+	<select id="searchNoticesByTitle" resultMap="noticeResultMap">
+		SELECT * FROM NOTICE_TBL WHERE NOTICE_SUBJECT LIKE '%'||#{searchKeyword}||'%'
+	</select>
+	
+	<select id="searchNoticesByContent" resultMap="noticeResultMap">
+		SELECT * FROM NOTICE_TBL WHERE NOTICE_CONTENT LIKE '%'||#{searchKeyword}||'%'
+	</select>
+	
+	<select id="searchNoticesByWriter" resultMap="noticeResultMap">
+		SELECT * FROM NOTICE_TBL WHERE NOTICE_WRITER LIKE '%'||#{searchKeyword}||'%'
+	</select>
+	
+	<select id="selectListCount" resultType="_int">
+		SELECT COUNT(*) FROM NOTICE_TBL
+	</select>
+	
+	<select id="selectListByKeywordCount" resultType="_int">
+		SELECT COUNT(*) FROM NOTICE_TBL
+		<if test="searchCondition == 'all'">
+		WHERE NOTICE_SUBJECT LIKE '%'||#{searchKeyword}||'%' OR NOTICE_CONTENT LIKE '%'||#{searchKeyword}||'%' OR NOTICE_WRITER LIKE '%'||#{searchKeyword}||'%'		
+		</if>
+		<if test="searchCondition == 'wirter'">
+		WHERE NOTICE_WRITER LIKE '%'||#{searchKeyword}||'%'		
+		</if>
+		<if test="searchCondition == 'title'">
+		WHERE NOTICE_SUBJECT LIKE '%'||#{searchKeyword}||'%'	
+		</if>
+		<if test="searchCondition == 'content'">
+		WHERE NOTICE_CONTENT LIKE '%'||#{searchKeyword}||'%'		
+		</if>
+	</select>
 </mapper>

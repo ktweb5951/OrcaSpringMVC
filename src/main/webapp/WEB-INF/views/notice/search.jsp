@@ -25,7 +25,7 @@
 			<tbody>
 			<!-- 	list데이터는 items에 넣었고 var에서 설정한 변수로 list데이터에서 -->
 			<!-- 	꺼낸 값을 사용하고 i값은 varStatus로 사용 -->
-				<c:forEach var="notice" items="${nList }" varStatus="i">
+				<c:forEach var="notice" items="${sList }" varStatus="i">
 					<tr>
 						<td>${i.count }</td>
 						<td>${notice.noticeSubject}</td>
@@ -45,10 +45,12 @@
 			</tbody>
 			<tfoot>
 				<tr align="center">
-					<td colspan="5">
+					<td colspan="5">		
 						<c:forEach begin="${pInfo.startNavi}" end="${pInfo.endNavi }" var="p">
-							<c:url var="pageUrl" value="/notice/list.kh">
+							<c:url var="pageUrl" value="/notice/search.kh">
 								<c:param name="page" value="${p }"></c:param>
+  								<c:param name="searchCondition" value="${searchCondition}"/>
+      							<c:param name="searchKeyword" value="${searchKeyword}"/>								
 							</c:url>
 							<a href="${pageUrl }">${p }</a>&nbsp;			
 						</c:forEach>
@@ -56,20 +58,19 @@
 				</tr>
 				<tr>
 					<td colspan="4">
-						<form action="/notice/search.kh" method="get">
+						<form action="/notice/search.kh" method="GET">
 							<select name="searchCondition">
-								<option value="all">전체</option>
-								<option value="writer">작성자</option>
-								<option value="title">제목</option>
-								<option value="content">내용</option>
+								<option value="all" <c:if test="${searchCondition =='all'}">selected</c:if>>전체</option>
+								<option value="writer" <c:if test="${searchCondition =='writer'}">selected</c:if>>작성자</option>
+								<option value="title" <c:if test="${searchCondition =='title'}">selected</c:if>>제목</option>
+								<option value="content" <c:if test="${searchCondition =='content'}">selected</c:if>>내용</option>
 							</select>
-							<input type="text" name="searchKeyword" palceholder="검색어를 입력하세요">
+							<input type="text" name="searchKeyword" placeholder="검색어를 입력하세요" value="${searchKeyword}">
 							<input type="submit" value="검색">
 						</form>
 					</td>
 					<td>
-						<button class="write-button">글쓰기</button>
-						
+						<button>글쓰기</button>
 					</td>
 				</tr>
 			</tfoot>
