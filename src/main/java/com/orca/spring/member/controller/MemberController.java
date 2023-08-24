@@ -107,17 +107,30 @@ public class MemberController {
 		}
 	}
 	
-	@RequestMapping(value="/member/mypage.kh", method=RequestMethod.GET)
+	@RequestMapping(value="/member/mypage.kh", method= {RequestMethod.GET, RequestMethod.POST})
 	public String memberInfo(Model model
-			,@ModelAttribute Member member) {
+			,HttpSession session
+			) {
 		//SELECT * FROM MEMBER_TBL WHERE MEMBER_ID
-		Member mOne = service.selectOneById(member);
-		if(mOne!=null) {
-			model.addAttribute("member", mOne);
-			return "member/myPage";
-		} else {
-			model.addAttribute("mgs", "데이터가 조회되고 있지않습니다.");
-			model.addAttribute("error", "마이페이지 조회 실패");
+		try {
+			String memberId = (String) session.getAttribute("memberId");
+			Member mOne = null;
+			if(memberId != "" & memberId !=null) {
+				mOne = service.selectOneById(memberId);				
+			}
+			if(mOne!=null) {
+				model.addAttribute("member", mOne);
+				return "member/myPage";
+			} else {
+				model.addAttribute("mgs", "데이터가 조회되고 있지않습니다.");
+				model.addAttribute("error", "마이페이지 조회 실패");
+				return "common/errorPage";
+			}
+			
+		} catch (Exception e) {
+			model.addAttribute("msg", "관리자에게 문의해주세요.");
+			model.addAttribute("error", e.getMessage());
+			model.addAttribute("url", "/member/register.kh");
 			return "common/errorPage";
 		}
 	}
@@ -125,9 +138,9 @@ public class MemberController {
 	
 	@RequestMapping(value="/member/modify.kh", method=RequestMethod.GET)
 	public String showModifyMember(Model model
-			,@ModelAttribute Member member) {
+			,@RequestParam("memberId") String memberId) {
 		try {
-			Member mOne = service.selectOneById(member);
+			Member mOne = service.selectOneById(memberId);
 			if(mOne!=null) {
 				model.addAttribute("member", mOne);
 				return "member/modify";

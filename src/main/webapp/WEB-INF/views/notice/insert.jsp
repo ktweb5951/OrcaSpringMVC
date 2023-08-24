@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<h1>공지 등록</h1>
-		<form action="/notice/insert.kh" method="post" enctype="multipart/form-data">
+		<form action="/notice/insert.kh" method="post" enctype="multipart/form-data">		
 			<ul>
 				<li>
 					<label>제목</label>
@@ -30,7 +30,7 @@
 				</li>
 			</ul>
 			<div>
-				<input type="submit" value="등록">
+				<input type="submit" value="등록">			
 			</div>
 		</form>
 	</body>

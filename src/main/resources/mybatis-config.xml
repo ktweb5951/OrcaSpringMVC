@@ -3,13 +3,19 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+	<settings>
+        <setting name="cacheEnabled" value="false" />
+        <setting name="jdbcTypeForNull" value="NULL" />
+    </settings>
 	<typeAliases>
 		<typeAlias type="com.orca.spring.member.domain.Member" alias="Member" />
 		<typeAlias type="com.orca.spring.notice.domain.Notice" alias="Notice" />
+		<typeAlias type="com.orca.spring.board.domain.Board" alias="Board" />
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/member/member-mapper.xml" />
 		<mapper resource="mappers/notice/notice-mapper.xml" />
+		<mapper resource="mappers/board/board-mapper.xml" />
 	</mappers>
 </configuration>
   

@@ -28,7 +28,11 @@
 				<c:forEach var="notice" items="${sList }" varStatus="i">
 					<tr>
 						<td>${i.count }</td>
-						<td>${notice.noticeSubject}</td>
+						<!-- c:url : url을 관리하기 용이함 -->
+						<c:url var="detailUrl" value="/notice/detail.kh">
+							<c:param name="noticeNo" value="${notice.noticeNo}"></c:param>
+						</c:url>
+						<td><a href="${detailUrl}">${notice.noticeSubject}</td>
 						<td>${notice.noticeWriter }</td>
 						<td>
 							<fmt:formatDate pattern="yyyy-MM-dd" value="${notice.nCreateDate }"/>			
@@ -45,7 +49,16 @@
 			</tbody>
 			<tfoot>
 				<tr align="center">
-					<td colspan="5">		
+					<td colspan="5">
+						<c:if test="${pInfo.startNavi ne 1}">
+							<c:url var="pageUrl" value="/notice/search.kh">
+								<c:param name="page" value="${pInfo.startNavi-1}"></c:param>
+  								<c:param name="searchCondition" value="${searchCondition}"/>
+      							<c:param name="searchKeyword" value="${searchKeyword}"/>							
+							</c:url>
+							<a href="${pageUrl }"><</a>
+<!-- 							&nbsp; -->
+						</c:if>
 						<c:forEach begin="${pInfo.startNavi}" end="${pInfo.endNavi }" var="p">
 							<c:url var="pageUrl" value="/notice/search.kh">
 								<c:param name="page" value="${p }"></c:param>
@@ -54,6 +67,14 @@
 							</c:url>
 							<a href="${pageUrl }">${p }</a>&nbsp;			
 						</c:forEach>
+						<c:if test="${pInfo.endNavi ne pInfo.naviTotalCount }"> 
+							<c:url var="pageUrl" value="/notice/search.kh">
+								<c:param name="page" value="${pInfo.endNavi+1}"></c:param>
+  								<c:param name="searchCondition" value="${searchCondition}"/>
+      							<c:param name="searchKeyword" value="${searchKeyword}"/>								
+							</c:url>
+							<a href="${pageUrl }">></a>
+						</c:if>							
 					</td>
 				</tr>
 				<tr>

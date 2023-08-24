@@ -18,7 +18,7 @@ public interface MemberService {
 	 */
 	public Member checkMemberLogin(Member member);
 
-	public Member selectOneById(Member member);
+	public Member selectOneById(String memberId);
 
 	public int updateMember(Member member);
 

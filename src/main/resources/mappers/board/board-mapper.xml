@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BoardMapper">
+	<resultMap type="board" id="boardResultMap">
+		<id property="boardNo" column="BOARD_NO"/>
+		<result property="boardTitle" column="BOARD_TITLE"/>
+		<result property="boardContent" column="BOARDCONTENT"/>
+		<result property="boardWriter" column="BOARD_WRITER"/>
+		<result property="boardFilename" column="BOARD_FILENAME"/>
+		<result property="boardFileRename" column="BOARD_FILERENAME"/>
+		<result property="boardFilepath" column="BOARD_FILEPATH"/>
+		<result property="boardFilelength" column="BOARD_FILELENGTH"/>
+		<result property="boardCount" column="BOARD_COUNT"/>
+		<result property="bCreateDate" column="B_CREATE_DATE"/>
+		<result property="bUpdateDate" column="B_UPDATE_DATE"/>
+		<result property="bStatus" column="B_STATUS"/>
+	
+	</resultMap>
+	<insert id="insertBoard">
+		INSERT INTO BOARD_TBL VALUES(SEQ_BOARD_NO.NEXTVAL, #{boardTitle}, #{boardContent}, #{boardWriter},#{boardFilename}, #{boardFileRename}, #{boardFilepath}, #{boardFilelength}, 0, DEFAULT, DEFAULT, DEFAULT)
+	</insert>
+
+	<update id="updateboard">
+		UPDATE board_TBL SET board_SUBJECT = #{boardSubject}, board_CONTENT=#{boardContent}, board_FILENAME=#{boardFilename}, board_FILERENAME=#{boardFileRename},board_FILEPATH=#{boardFilepath}, board_FILELENGTH=#{boardFilelength}, N_UPDATE_DATE=DEFAULT WHERE board_NO=#{boardNo}
+	</update>
+	
+	<select id="selectBoardList" resultMap="boardResultMap">
+		SELECT * FROM BOARD_TBL ORDER BY BOARD_NO DESC
+	</select>
+	
+	<select id="searchboardsByKeyword" resultMap="boardResultMap">
+		SELECT * FROM board_TBL
+		<if test="searchCondition == 'all'">
+		WHERE board_SUBJECT LIKE '%'||#{searchKeyword}||'%' OR board_CONTENT LIKE '%'||#{searchKeyword}||'%' OR board_WRITER LIKE '%'||#{searchKeyword}||'%'		
+		</if>
+		<if test="searchCondition == 'wirter'">
+		WHERE board_WRITER LIKE '%'||#{searchKeyword}||'%'		
+		</if>
+		<if test="searchCondition == 'title'">
+		WHERE board_SUBJECT LIKE '%'||#{searchKeyword}||'%'	
+		</if>
+		<if test="searchCondition == 'content'">
+		WHERE board_CONTENT LIKE '%'||#{searchKeyword}||'%'		
+		</if>
+	</select>
+	
+	
+	<select id="searchboardsAll" resultMap="boardResultMap">
+		SELECT * FROM board_TBL WHERE board_SUBJECT LIKE '%'||#{searchKeyword}||'%' OR board_CONTENT LIKE '%'||#{searchKeyword}||'%' OR board_WRITER LIKE '%'||#{searchKeyword}||'%'
+	</select>
+	
+	<select id="searchboardsByTitle" resultMap="boardResultMap">
+		SELECT * FROM board_TBL WHERE board_SUBJECT LIKE '%'||#{searchKeyword}||'%'
+	</select>
+	
+	<select id="searchboardsByContent" resultMap="boardResultMap">
+		SELECT * FROM board_TBL WHERE board_CONTENT LIKE '%'||#{searchKeyword}||'%'
+	</select>
+	
+	<select id="searchboardsByWriter" resultMap="boardResultMap">
+		SELECT * FROM board_TBL WHERE board_WRITER LIKE '%'||#{searchKeyword}||'%'
+	</select>
+	
+	<select id="selectListCount" resultType="_int">
+		SELECT COUNT(*) FROM BOARD_TBL
+	</select>
+	
+	<select id="selectListByKeywordCount" resultType="_int">
+		SELECT COUNT(*) FROM board_TBL
+		<if test="searchCondition == 'all'">
+		WHERE board_SUBJECT LIKE '%'||#{searchKeyword}||'%' OR board_CONTENT LIKE '%'||#{searchKeyword}||'%' OR board_WRITER LIKE '%'||#{searchKeyword}||'%'		
+		</if>
+		<if test="searchCondition == 'wirter'">
+		WHERE board_WRITER LIKE '%'||#{searchKeyword}||'%'		
+		</if>
+		<if test="searchCondition == 'title'">
+		WHERE board_SUBJECT LIKE '%'||#{searchKeyword}||'%'	
+		</if>
+		<if test="searchCondition == 'content'">
+		WHERE board_CONTENT LIKE '%'||#{searchKeyword}||'%'		
+		</if>
+	</select>
+	
+	<select id="selectBoarByNo" resultMap="boardResultMap">
+		SELECT * FROM BOARD_TBL WHERE board_NO = #{boardNo}
+	</select>
+</mapper>

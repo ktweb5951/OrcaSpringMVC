@@ -48,8 +48,8 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public Member selectOneById(Member member) {
-		Member mOne = mStore.selectOneByid(session, member);
+	public Member selectOneById(String memberId) {
+		Member mOne = mStore.selectOneByid(session, memberId);
 		return mOne;
 	}
 }

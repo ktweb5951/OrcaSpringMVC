@@ -10,7 +10,7 @@ public interface MemberStore {
 
 	public Member checkMemberLogin(SqlSession session, Member member);
 
-	public Member selectOneByid(SqlSession session, Member member);
+	public Member selectOneByid(SqlSession session, String memberId);
 
 	public int updateMember(SqlSession session, Member member);
 
