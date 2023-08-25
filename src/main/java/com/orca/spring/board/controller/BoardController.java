@@ -21,11 +21,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.orca.spring.board.domain.Board;
 import com.orca.spring.board.domain.PageInfo;
+import com.orca.spring.board.domain.Reply;
 import com.orca.spring.board.service.BoardService;
+import com.orca.spring.board.service.ReplyService;
 
 @Controller
 public class BoardController {
 
+	@Autowired
+	private ReplyService rService;
 	
 	@Autowired
 	private BoardService bService;
@@ -83,6 +87,10 @@ public class BoardController {
 		try {
 			Board boardOne = bService.selectBoardByNo(boardNo);
 			if(boardOne!=null) {
+				List<Reply> replyList = rService.selectReplyList(boardNo);
+				if(replyList.size()>0) {
+					mv.addObject("rList", replyList);
+				}
 				mv.addObject("board", boardOne);
 				mv.setViewName("board/detail");
 				

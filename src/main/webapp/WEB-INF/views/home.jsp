@@ -15,6 +15,7 @@
 			<form action="/member/mypage.kh" method="post"> 
 				<input type="hidden" name="memberId" value="${sessionScope.memberId}">
 				<input type="submit" value="마이페이지"> 
+				<a href="/board/list.kh">게시판</a>
 			</form>
 <%-- 			<a href="/member/mypage.kh?memberId=${memberId}">마이페이지</a> --%>
 		</c:if>
