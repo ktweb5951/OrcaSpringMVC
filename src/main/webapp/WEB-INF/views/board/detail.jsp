@@ -65,7 +65,7 @@
 					<td>${reply.rCreateDate }</td>
 					<td>
 						<a href="javascript:void(0)" onclick="showModifyForm(this);">수정하기</a>
-						<a href="#">삭제하기</a>
+						<a href="javascript:void(0);" onclick="deleteReply();">삭제하기</a>
 					</td>
 				</tr>
 				<tr id="replyModifyForm" style="display:none">
@@ -136,9 +136,8 @@
 					input2.name = "refBoardNo";
 					const input3 = document.createElement("input");
 					input3.type = "text";
-					//여기를 디스를 이용하여 수정해 주세요.
-					const replyContent =obj.parentElement.previousElementSibling.textContent;
-					input3.value = replyContent;
+					//this를 이용해서 내가 원하는 노드 찾기(this를 이용한 노드 탐색)
+					input3.value = obj.parentElement.previousElementSibling.childNodes[0].value;
 					input3.name = "replyContent";
 					form.appendChild(input);	
 					form.appendChild(input2);
