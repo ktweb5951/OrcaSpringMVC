@@ -85,4 +85,47 @@ public class ReplyController {
 		
 		return mv;
 	}
+	
+	@RequestMapping(value="/delete.kh", method=RequestMethod.GET)
+	public ModelAndView deleteReply(ModelAndView mv
+			, @ModelAttribute Reply reply
+//			, @RequestParam("replyNo") Integer replyNo
+//			, @RequestParam("replyWriter") String replyWriter
+//			, @RequestParam("refBoardNo") Integer refBoardNo
+			, HttpSession session) {
+		
+		String url="";	
+		try {
+			String memberId = (String)session.getAttribute("memberId");
+			String replyWriter = reply.getReplyWriter();
+			if(replyWriter !=null &&replyWriter.equals(memberId)) {
+//				Reply reply = new Reply();
+//				reply.setReplyNo(replyNo);
+//				reply.setReplyWriter(replyWriter);
+				url = "/board/detail.kh?boardNo="+reply.getRefBoardNo();
+				int result = rService.deleteReply(reply);
+				if(result>0) {
+					mv.setViewName("redirect:"+url);
+				}else {
+					mv.addObject("msg", "댓글 삭제가 완료되지 않았습니다.");
+					mv.addObject("error", "댓글 삭제 실패");
+					mv.addObject("url", url);
+					mv.setViewName("common/errorPage");
+				}				
+			} else {
+				mv.addObject("msg", "자신의 댓글만 삭제할 수 있습니다.");
+				mv.addObject("error", "댓글 삭제 불가");
+				mv.addObject("url", url);
+				mv.setViewName("common/errorPage");
+			}
+			
+		} catch (Exception e) {
+			mv.addObject("msg", "관리자에게 문의바랍니다.");
+			mv.addObject("error", e.getMessage());
+//			mv.addObject("url", "/board/detail.kh/boardNo="");
+			mv.addObject("url", url);
+			mv.setViewName("common/errorPage");
+		}
+		return mv;
+	}
 }

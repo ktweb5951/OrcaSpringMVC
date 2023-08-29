@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -32,9 +33,9 @@
 					<a href="../resources/nuploadFiles/${notice.noticeFileRename }" download>${notice.noticeFileRename }</a>
 				</li>
 			</ul>
-			<div>
+			<div>		
 				<button type="button" onclick="showModifyPage();">수정하기</button>
-				<button>삭제하기</button>
+				<button type="button" onclick="deleteBoard();">삭제하기</button>
 				<button type="button" onclick="moveListPage();">목록으로</button>
 			</div>
 			<script>
@@ -44,6 +45,11 @@
 				}
 				function moveListPage(){
 					location.href="/notice/list.kh";
+				}
+				
+				function deleteBoard(){
+					const noticeNo = "${notice.noticeNo}";
+					 location.href = "/notice/delete.kh?noticeNo=" + noticeNo;
 				}
 			</script>
 

@@ -17,7 +17,7 @@
 				</li>
 				<li>
 					<label>작성자</label>
-					<input type="text" name="noticeWriter">
+					<input type="text" name="noticeWriter" value="${sessionScope.memberId}">
 				</li>
 				<li>
 					<label>내용</label>

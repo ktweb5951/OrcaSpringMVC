@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.orca.spring.notice.domain.Notice;
 import com.orca.spring.notice.domain.PageInfo;
@@ -40,6 +42,7 @@ public class NoticeController {
 		public String insertNotice(@ModelAttribute Notice notice
 				, @RequestParam(value="uploadFile", required=false) MultipartFile uploadFile
 				, HttpServletRequest request
+				, HttpSession session
 				, Model model) {
 			try {
 				if(uploadFile != null && !uploadFile.getOriginalFilename().equals("")) {
@@ -54,8 +57,10 @@ public class NoticeController {
 					notice.setNoticeFilepath(savePath);
 					notice.setNoticeFilelength(fileLength);
 				}
+				String memberId = (String)session.getAttribute("memberId");
 				int result = service.insertNotice(notice);
 				if(result>0) {
+					model.addAttribute("memberId", memberId);
 					return "redirect:/notice/list.kh";
 				} else {
 					model.addAttribute("msg", "공지사항 등록이 완료되지 않았습니다.");
@@ -127,7 +132,32 @@ public class NoticeController {
 			
 		}
 		
-		
+		@RequestMapping(value="/notice/delete.kh", method=RequestMethod.GET)
+		public ModelAndView deleteNotice(ModelAndView mv
+				, HttpSession session
+				, @ModelAttribute Notice notice
+				) {
+			
+			try {
+					int result = service.deleteNotice(notice);
+					if(result>0) {
+						mv.setViewName("redirect:/notice/list.kh");						
+					} else {
+						mv.addObject("msg", "공지가 삭제되지 않았습니다.");
+						mv.addObject("error", "공지 삭제 실패");
+						mv.addObject("url",	"/notice/list.kh");
+						mv.setViewName("common/errorPage");
+					}
+
+			} catch (Exception e) {
+				mv.addObject("msg", "공지가 삭제되지 않았습니다.");
+				mv.addObject("error", e.getMessage());
+				mv.addObject("url",	"/notice/list.kh");
+				mv.setViewName("common/errorPage");
+			}
+			return mv;
+		}
+
 		@RequestMapping(value="/notice/list.kh", method=RequestMethod.GET)
 		public String showNoticeList(
 				@RequestParam(value="page", required=false, defaultValue="1") Integer currentPage

@@ -17,7 +17,8 @@
 					</li>
 					<li>
 						<label>작성자</label>
-						<input type="text" name="boardWriter">
+<%-- 						<input type="text" name="boardWriter" value="${sessionScope.memberId}" readonly> --%>
+						<span>${sessionScope.memberId}</span>
 					</li>
 					<li>
 						<label>내용</label>

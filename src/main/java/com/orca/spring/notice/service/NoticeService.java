@@ -23,6 +23,13 @@ public interface NoticeService {
 	int updateNotice(Notice notice);
 
 	/**
+	 * 공지사항 삭제 Service
+	 * @param notice
+	 * @return
+	 */
+	int deleteNotice(Notice notice);
+
+	/**
 	 * 공지사항 목록 조회 Service
 	 * @return 
 	 */

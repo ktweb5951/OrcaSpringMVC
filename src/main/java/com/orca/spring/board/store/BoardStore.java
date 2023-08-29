@@ -18,6 +18,22 @@ public interface BoardStore {
 	int insertBoard(SqlSession sqlSession, Board board);
 
 	/**
+	 * 게시글 수정 Store
+	 * @param sqlSession
+	 * @param board
+	 * @return
+	 */
+	int updateBoard(SqlSession sqlSession, Board board);
+
+	/**
+	 * 게시글 삭제 Store
+	 * @param sqlSession
+	 * @param board
+	 * @return
+	 */
+	int deleteBoard(SqlSession sqlSession, Board board);
+
+	/**
 	 * 전체 게시물 개수 Store
 	 * @param sqlSession
 	 * @return

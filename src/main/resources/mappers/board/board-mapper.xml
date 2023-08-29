@@ -6,7 +6,7 @@
 	<resultMap type="board" id="boardResultMap">
 		<id property="boardNo" column="BOARD_NO"/>
 		<result property="boardTitle" column="BOARD_TITLE"/>
-		<result property="boardContent" column="BOARDCONTENT"/>
+		<result property="boardContent" column="BOARD_CONTENT"/>
 		<result property="boardWriter" column="BOARD_WRITER"/>
 		<result property="boardFilename" column="BOARD_FILENAME"/>
 		<result property="boardFileRename" column="BOARD_FILERENAME"/>
@@ -22,12 +22,16 @@
 		INSERT INTO BOARD_TBL VALUES(SEQ_BOARD_NO.NEXTVAL, #{boardTitle}, #{boardContent}, #{boardWriter},#{boardFilename}, #{boardFileRename}, #{boardFilepath}, #{boardFilelength}, 0, DEFAULT, DEFAULT, DEFAULT)
 	</insert>
 
-	<update id="updateboard">
-		UPDATE board_TBL SET board_SUBJECT = #{boardSubject}, board_CONTENT=#{boardContent}, board_FILENAME=#{boardFilename}, board_FILERENAME=#{boardFileRename},board_FILEPATH=#{boardFilepath}, board_FILELENGTH=#{boardFilelength}, N_UPDATE_DATE=DEFAULT WHERE board_NO=#{boardNo}
+	<update id="updateBoard">
+		UPDATE BOARD_TBL SET BOARD_TITLE = #{boardTitle}, BOARD_CONTENT=#{boardContent},BOARD_FILENAME=#{boardFilename}, BOARD_FILERENAME=#{boardFileRename},BOARD_FILEPATH=#{boardFilepath}, BOARD_FILELENGTH=#{boardFilelength}, B_UPDATE_DATE=DEFAULT WHERE BOARD_NO=#{boardNo}
+	</update>
+	
+	<update id="deleteBoard">
+		UPDATE BOARD_TBL SET B_STATUS = 'N' WHERE BOARD_NO = #{boardNo} AND BOARD_WRITER = #{boardWriter}
 	</update>
 	
 	<select id="selectBoardList" resultMap="boardResultMap">
-		SELECT * FROM BOARD_TBL ORDER BY BOARD_NO DESC
+		SELECT * FROM BOARD_TBL WHERE B_STATUS= 'Y' ORDER BY BOARD_NO DESC 
 	</select>
 	
 	<select id="searchboardsByKeyword" resultMap="boardResultMap">

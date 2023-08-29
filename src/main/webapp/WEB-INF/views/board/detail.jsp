@@ -34,8 +34,14 @@
 				</li>
 			</ul>
 			<div>
+			<c:url var="bUrl" value="/board/delete.kh">
+				<c:param name="boardNo" value="${board.boardNo }"></c:param>
+				<c:param name="boardWriter" value="${board.boardWriter }"></c:param>
+			</c:url>				
+			<c:if test="${board.boardWriter eq sessionScope.memberId }">
 				<button type="button" onclick="showModifyPage();">수정하기</button>
-				<button>삭제하기</button>
+			</c:if>
+				<button type="button" onclick="deleteBoard('${bUrl}');">삭제하기</button>
 				<button type="button" onclick="moveListPage();">목록으로</button>
 			</div>
 			<br>			
@@ -65,7 +71,14 @@
 					<td>${reply.rCreateDate }</td>
 					<td>
 						<a href="javascript:void(0)" onclick="showModifyForm(this);">수정하기</a>
-						<a href="javascript:void(0);" onclick="deleteReply();">삭제하기</a>
+						<c:url var="delUrl" value="/reply/delete.kh">
+							<c:param name="replyNo" value="${reply.replyNo }"></c:param>
+<!-- 							작성한 사람만 지우도록 하기 위해서 추가 -->
+							<c:param name="replyWriter" value="${reply.replyWriter }"></c:param>
+<!-- 							성공하면 디테일jsp로 가기 위해 필요한 boardNo세팅 -->
+							<c:param name="refBoardNo" value="${reply.refBoardNo }"></c:param>
+						</c:url>
+						<a href="javascript:void(0);" onclick="deleteReply('${delUrl}');">삭제하기</a>
 					</td>
 				</tr>
 				<tr id="replyModifyForm" style="display:none">
@@ -82,8 +95,17 @@
 
 			</table>
 			<script>
+				function deleteBoard(bUrl){
+					location.href = bUrl;
+				}
+			
+				function deleteReply(url){
+					//DELETE FROM REPLY_TBL WHERE REPLY_NO = 샵{replyNo} AND R_STAUS= 'Y'
+					//UPDATE REPLY_TBL SET R_STATUS = 'N' WHERE REPLY_NO=샵{replyNo}
+					location.href = url;
+				}
 				function showModifyPage(){
-					const noticeNo = "${board.boardNo}";
+					const boardNo = "${board.boardNo}";
 					location.href="/board/modify.kh?boardNo="+boardNo;
 				}
 				function moveListPage(){
@@ -144,7 +166,9 @@
 					form.appendChild(input3);
 					document.body.appendChild(form);
 					form.submit();
-				}				
+				}	
+				
+				
 			</script>
 
 	</body>

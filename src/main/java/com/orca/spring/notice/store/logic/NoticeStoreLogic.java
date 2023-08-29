@@ -28,6 +28,12 @@ public class NoticeStoreLogic implements NoticeStore {
 	}
 
 	@Override
+	public int deleteNotice(SqlSession session, Notice notice) {
+		int result = session.delete("NoticeMapper.deleteNotice", notice);
+		return result;
+	}
+
+	@Override
 	public List<Notice> selectNoticeList(SqlSession session, PageInfo pInfo) {
 		int limit = pInfo.getRecordCountPerPage(); // 가져오는 행의 갯수
 		int offset = (pInfo.getCurrentPage()-1)*limit;

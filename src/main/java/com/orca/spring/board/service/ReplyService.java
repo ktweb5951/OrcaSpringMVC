@@ -27,4 +27,11 @@ public interface ReplyService {
 	 */
 	int updateReply(Reply reply);
 
+	/**
+	 * 댓글 삭제 Service
+	 * @param reply
+	 * @return
+	 */
+	int deleteReply(Reply reply);
+
 }

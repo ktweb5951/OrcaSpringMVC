@@ -27,6 +27,14 @@ public interface NoticeStore {
 	 */
 	int updateNotice(SqlSession session, Notice notice);
 
+	/** 
+	 * 공지사항 삭제 Store
+	 * @param session
+	 * @param notice
+	 * @return
+	 */
+	int deleteNotice(SqlSession session, Notice notice);
+
 	/**
 	 * 공지사항 목록 조회 Store
 	 * @param session
